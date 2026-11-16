@@ -68,3 +68,20 @@ The official Eaglercraft download page currently identifies its 1.12.2 port as t
 ## Feature status policy
 
 A feature is **planned** until implemented, built, and tested inside the game. A launcher preference or HTML overlay does not count as an in-game client feature.
+
+
+## Source research — 2026-11-16
+
+### Official 1.12.2 distribution
+- The Eaglercraft downloads page identifies the 1.12.2 port as PeytonPlayz585's work and says it is still under development.
+- The official public download page offers JS and WASM-GC offline builds, but the page does not provide an editable source workspace.
+- Reference: https://dev.eaglercraft.com/downloads
+
+### Candidate review
+- `minecraftjava121/Eaglercraft-1.12-Source`: contains Java source directories and Gradle/TeaVM build scripts, and declares Apache-2.0. **Rejected for now**: its only commit is titled "leak", is unsigned and attributed to an unverified account; the repository has no credible provenance linking it to the official 1.12.2 port. A self-added license file does not establish rights over third-party code or assets.
+- `mfgeeky/EaglercraftX-1.12.2-workspace`: its README and build metadata identify the EaglercraftX 1.8 runtime/package; rejected as the wrong game version.
+- `MaxGuill888/Eaglercraft-1.12.2-Reworked`: appears to contain a 1.12-derived Java workspace, but it has no declared license and the README says the web build has not been compiled; not approved for integration or redistribution.
+- Offline collections and compiled HTML mirrors are not editable source workspaces.
+
+### Decision
+Do not import any of the above candidates into MENKIA. Continue using the existing runtime as a protected fallback. The acceptable route is to obtain a source workspace directly from the 1.12.2 port maintainer or another verifiable rights-holder, with explicit modification/redistribution terms, then build and smoke-test an untouched baseline before adding MENKIA code.
