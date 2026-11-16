@@ -106,5 +106,61 @@ document.querySelector("#playButton").addEventListener("click", () => {
   document.querySelector("#playMessage").textContent = "El launcher está preparado visualmente; falta integrar el motor Minecraft para jugar.";
 });
 
+
+const SETTINGS_KEY = "menkia-settings";
+const defaultSettings = {
+  graphicsQuality: "balanced",
+  particlesEnabled: true,
+  showFps: true,
+  showCps: false,
+  showKeystrokes: true
+};
+const settingIds = Object.keys(defaultSettings);
+
+function readSettings() {
+  try {
+    return { ...defaultSettings, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}") };
+  } catch {
+    return { ...defaultSettings };
+  }
+}
+
+function applySettings(settings) {
+  for (const id of settingIds) {
+    const control = document.getElementById(id);
+    if (!control) continue;
+    if (control.type === "checkbox") control.checked = Boolean(settings[id]);
+    else control.value = settings[id];
+  }
+}
+
+function saveSettings() {
+  const settings = {};
+  for (const id of settingIds) {
+    const control = document.getElementById(id);
+    if (!control) continue;
+    settings[id] = control.type === "checkbox" ? control.checked : control.value;
+  }
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  const status = document.querySelector("#settingsStatus");
+  if (status) status.textContent = "Preferencias guardadas en este navegador.";
+}
+
+function setupSettings() {
+  applySettings(readSettings());
+  for (const id of settingIds) {
+    const control = document.getElementById(id);
+    if (control) control.addEventListener("change", saveSettings);
+  }
+  const reset = document.querySelector("#resetSettings");
+  if (reset) reset.addEventListener("click", () => {
+    applySettings(defaultSettings);
+    saveSettings();
+    const status = document.querySelector("#settingsStatus");
+    if (status) status.textContent = "Ajustes restablecidos.";
+  });
+}
+
 loadProfile();
 setupSkinViewer();
+setupSettings();
