@@ -166,3 +166,30 @@ footer{margin-left:224px}
 @keyframes menkia-pulse{50%{transform:scale(1.06);box-shadow:0 0 75px #9d7cff55}}
 body.game-open{overflow:hidden}
 @media(max-width:600px){.game-toolbar{padding:0 10px}.game-engine-label{display:none}.game-toolbar-actions{gap:8px}.game-toolbar button{font-size:8px;padding:8px}.game-loading h2{font-size:24px}}
+
+
+/* MENKIA in-game mode switcher and custom overlay panel */
+.game-toolbar-buttons{display:flex;align-items:center;gap:8px}
+.game-toolbar-buttons button:first-child{border-color:#a78bfa80;background:#a78bfa22;color:#e3d9ff}
+.game-toolbar-buttons kbd,.menkia-panel-hint kbd{font:800 8px 'DM Sans',sans-serif;letter-spacing:.5px;color:#d9caff;background:#a78bfa20;border:1px solid #a78bfa55;border-radius:3px;padding:3px 5px;margin-left:5px}
+.menkia-game-hud{position:absolute;z-index:3;top:67px;left:15px;display:flex;gap:7px;pointer-events:none;transition:opacity .18s}
+.menkia-game-hud[aria-hidden="true"]{opacity:0;visibility:hidden}
+.hud-chip{display:flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid #a78bfa55;border-radius:5px;background:#0b0e17d9;backdrop-filter:blur(10px);color:#e9e2ff;font-size:8px;font-weight:800;letter-spacing:1px;box-shadow:0 5px 20px #0006}
+.hud-chip i{width:6px;height:6px;border-radius:50%;background:#8cdbad;box-shadow:0 0 9px #8cdbad}
+.menkia-game-panel{position:absolute;z-index:5;top:67px;right:16px;width:min(340px,calc(100vw - 32px));padding:20px;border:1px solid #a78bfa66;border-radius:10px;background:linear-gradient(145deg,#171b2bF5,#0a0d16F7);box-shadow:0 22px 80px #000b,0 0 35px #a78bfa18;backdrop-filter:blur(18px);color:#f4f5fb}
+.menkia-game-panel[hidden]{display:none!important}
+.menkia-panel-heading{display:flex;align-items:center;justify-content:space-between}
+.menkia-panel-heading small{font-size:8px;letter-spacing:2px;color:#bba8ff;font-weight:800}
+.menkia-panel-heading h2{font:900 25px 'Barlow Condensed';letter-spacing:1.5px;margin:3px 0 0}
+.menkia-panel-heading>button{width:29px;height:29px;border:1px solid #ffffff20;border-radius:5px;background:#ffffff0a;color:white;font-size:20px;cursor:pointer}
+.menkia-panel-desc{font-size:10px;line-height:1.6;color:#929caf;margin:13px 0 18px}
+.menkia-panel-mode{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid #ffffff14;border-bottom:1px solid #ffffff14}
+.menkia-panel-mode span{font-size:8px;letter-spacing:1.2px;color:#818ba0;font-weight:800}
+.menkia-panel-mode strong{font-size:10px;letter-spacing:1px;color:#d6c8ff}
+.menkia-panel-action{width:100%;margin-top:13px;padding:12px;border:1px solid #a78bfa70;border-radius:5px;background:#a78bfa;color:#171322;font:900 9px 'DM Sans';letter-spacing:1px;cursor:pointer}
+.menkia-panel-action:hover{filter:brightness(1.1)}
+.menkia-panel-hint{display:flex;align-items:center;gap:9px;margin-top:17px;color:#929caf;font-size:9px}
+.menkia-panel-note{margin-top:16px;padding-top:13px;border-top:1px solid #ffffff12;color:#707b91;font-size:8px;line-height:1.7}
+.game-overlay.classic-mode .menkia-game-hud{display:none}
+.game-overlay.classic-mode .game-toolbar-buttons button:first-child{border-color:#ffffff24;background:#171d2a;color:#f4f5fb}
+@media(max-width:600px){.game-toolbar-buttons{gap:5px}.game-toolbar-buttons button{padding:7px 8px;font-size:7px}.game-toolbar-buttons kbd{display:none}.menkia-game-panel{top:62px;right:8px}.menkia-game-hud{top:62px;left:8px}}
