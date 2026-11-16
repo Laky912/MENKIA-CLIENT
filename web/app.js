@@ -167,8 +167,8 @@ document.querySelector("#menuMods")?.addEventListener("click", () => toggleGameP
 document.querySelector("#menuOptions")?.addEventListener("click", () => toggleGamePanel(true));
 document.querySelector("#menuMultiplayer")?.addEventListener("click", () => {
   const address = document.querySelector("#hudServerAddress");
-  address?.focus();
   toggleGamePanel(true);
+  address?.focus();
 });
 document.querySelector("#menuBackClassic")?.addEventListener("click", () => {
   document.querySelector("#menkiaMainMenu").hidden = true;
