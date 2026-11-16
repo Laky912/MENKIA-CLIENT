@@ -11,8 +11,8 @@ Cliente de Minecraft para navegador, con objetivo de compatibilidad con **Minecr
 - [x] Perfil local con nombre editable.
 - [x] Carga y vista previa básica de skin PNG.
 - [ ] Vista previa 3D del personaje.
-- [x] Importador local del motor Eaglercraft 1.12 WASM-GC con verificación SHA-256.
-- [x] Conexión del botón JUGAR y pantalla de juego integrada al launcher.
+- [x] Botón JUGAR conectado al acceso web oficial de Eaglercraft 1.12 WASM-GC, sin importación manual.
+- [x] Pantalla de juego integrada visualmente en MENKIA.
 - [ ] Sincronización del nick del perfil con el motor (requiere verificar su API de opciones).
 - [ ] HUD: FPS, CPS, Keystrokes y ArmorHUD.
 - [ ] Ajustes gráficos y opciones de rendimiento.
@@ -34,9 +34,9 @@ web/
 README.md
 ```
 
-## Importante sobre el motor
+## Integración del juego
 
-El repositorio no redistribuye el motor. El usuario importa localmente el HTML WASM-GC que obtuvo desde la página de descargas de Eaglercraft; MENKIA comprueba su SHA-256 y lo guarda en IndexedDB en ese navegador. El botón JUGAR abre el archivo importado dentro de una vista de juego. La sincronización automática del nick y los HUD internos siguen pendientes.
+El botón JUGAR abre dentro de la pantalla de juego de MENKIA el acceso web oficial de Eaglercraft 1.12.2 WASM-GC (`https://dev.eaglercraft.com/play?version=1.12.2-wasm`). No requiere que cada jugador descargue o importe un HTML. La página oficial se carga desde sus propios servidores; por ello, su disponibilidad, compatibilidad con iframes y requisitos del navegador dependen de ese servicio. La sincronización automática del nick y los HUD internos siguen pendientes.
 
 ## Desarrollo
 
