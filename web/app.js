@@ -256,3 +256,48 @@ function setupSidebarNavigation() {
   showView(initial);
 }
 setupSidebarNavigation();
+
+
+// MENKIA in-game interface layer (wrapper UI; the compiled Minecraft menus remain unchanged).
+const GAME_MODE_KEY = "menkia-game-mode";
+const gameModeButton = document.querySelector("#gameModeButton");
+const gamePanelButton = document.querySelector("#gamePanelButton");
+const gamePanel = document.querySelector("#menkiaGamePanel");
+const gameHud = document.querySelector("#menkiaGameHud");
+const gameModeLabel = document.querySelector("#gameModeLabel");
+let gameMode = localStorage.getItem(GAME_MODE_KEY) === "classic" ? "classic" : "menkia";
+
+function setGameMode(mode) {
+  gameMode = mode === "classic" ? "classic" : "menkia";
+  localStorage.setItem(GAME_MODE_KEY, gameMode);
+  const isMenkia = gameMode === "menkia";
+  document.querySelector("#gameOverlay")?.classList.toggle("classic-mode", !isMenkia);
+  if (gameModeButton) {
+    gameModeButton.textContent = isMenkia ? "MENKIA UI" : "MODO CLÁSICO";
+    gameModeButton.setAttribute("aria-pressed", String(isMenkia));
+  }
+  if (gameModeLabel) gameModeLabel.textContent = isMenkia ? "MENKIA" : "CLÁSICO";
+  const panelModeButton = document.querySelector("#panelModeButton");
+  if (panelModeButton) panelModeButton.textContent = isMenkia ? "CAMBIAR A CLÁSICO" : "CAMBIAR A MENKIA";
+  if (gameHud) gameHud.setAttribute("aria-hidden", String(!isMenkia));
+}
+
+function toggleGamePanel(force) {
+  if (!gamePanel) return;
+  const shouldOpen = typeof force === "boolean" ? force : gamePanel.hidden;
+  gamePanel.hidden = !shouldOpen;
+  if (gamePanelButton) gamePanelButton.setAttribute("aria-expanded", String(shouldOpen));
+}
+
+gameModeButton?.addEventListener("click", () => setGameMode(gameMode === "menkia" ? "classic" : "menkia"));
+gamePanelButton?.addEventListener("click", () => toggleGamePanel());
+document.querySelector("#closeGamePanel")?.addEventListener("click", () => toggleGamePanel(false));
+document.querySelector("#panelModeButton")?.addEventListener("click", () => setGameMode(gameMode === "menkia" ? "classic" : "menkia"));
+document.addEventListener("keydown", event => {
+  if (event.code === "ShiftRight" && !event.repeat && !document.querySelector("#gameOverlay")?.hidden) {
+    event.preventDefault();
+    toggleGamePanel();
+  }
+  if (event.code === "Escape" && gamePanel && !gamePanel.hidden) toggleGamePanel(false);
+});
+setGameMode(gameMode);
