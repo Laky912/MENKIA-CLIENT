@@ -124,6 +124,7 @@ function launchEngine() {
   if (!frame || !overlay) return;
   overlay.hidden = false;
   document.body.classList.add("game-open");
+  document.querySelector("#menkiaMainMenu").hidden = gameStarted ? false : true;
   if (!gameStarted) {
     setGameLoading("INICIANDO CLIENTE", "Cargando el motor local de MENKIA...");
     frame.src = GAME_URL;
@@ -149,6 +150,8 @@ if (gameFrame) {
       }
       const loading = document.querySelector("#gameLoading");
       if (loading) loading.hidden = true;
+      const mainMenu = document.querySelector("#menkiaMainMenu");
+      if (mainMenu) mainMenu.hidden = false;
     } catch {
       setGameLoading("NO SE PUDO ABRIR", "El motor debe estar alojado en el mismo sitio que MENKIA.", true);
     }
@@ -157,6 +160,20 @@ if (gameFrame) {
 
 document.querySelector("#playButton").addEventListener("click", launchEngine);
 document.querySelector("#closeGameButton").addEventListener("click", closeEngine);
+document.querySelector("#menuSingleplayer")?.addEventListener("click", () => {
+  document.querySelector("#menkiaMainMenu").hidden = true;
+});
+document.querySelector("#menuMods")?.addEventListener("click", () => toggleGamePanel(true));
+document.querySelector("#menuOptions")?.addEventListener("click", () => toggleGamePanel(true));
+document.querySelector("#menuMultiplayer")?.addEventListener("click", () => {
+  const address = document.querySelector("#hudServerAddress");
+  address?.focus();
+  toggleGamePanel(true);
+});
+document.querySelector("#menuBackClassic")?.addEventListener("click", () => {
+  document.querySelector("#menkiaMainMenu").hidden = true;
+  setGameMode("classic");
+});
 
 
 const SETTINGS_KEY = "menkia-settings";
@@ -301,3 +318,78 @@ document.addEventListener("keydown", event => {
   if (event.code === "Escape" && gamePanel && !gamePanel.hidden) toggleGamePanel(false);
 });
 setGameMode(gameMode);
+
+
+// MENKIA HUD settings. Only browser-measurable FPS is live in this wrapper build.
+const MODS_KEY = "menkia-mods-config";
+const modDefaults = { fps: true, freelook: false, effects: false, tps: false, ping: false, address: false, scale: 100, x: 3, y: 4, addressText: "" };
+function readModConfig() {
+  try { return { ...modDefaults, ...JSON.parse(localStorage.getItem(MODS_KEY) || "{}") }; }
+  catch { return { ...modDefaults }; }
+}
+let modConfig = readModConfig();
+function saveModConfig() {
+  localStorage.setItem(MODS_KEY, JSON.stringify(modConfig));
+  applyHudConfig();
+}
+function applyHudConfig() {
+  const hud = document.querySelector("#menkiaGameHud");
+  if (!hud) return;
+  hud.style.left = modConfig.x + "%";
+  hud.style.top = (52 + modConfig.y) + "%";
+  hud.style.transform = "scale(" + (modConfig.scale / 100) + ")";
+  hud.style.transformOrigin = "top left";
+  const mapping = { fps: "hudFps", ping: "hudPing", tps: "hudTps", address: "hudAddress" };
+  for (const [key, id] of Object.entries(mapping)) {
+    const node = document.getElementById(id);
+    if (node) node.hidden = !modConfig[key];
+  }
+  const addressNode = document.querySelector("#hudAddress");
+  if (addressNode) addressNode.textContent = "SERVER: " + (modConfig.addressText || "--");
+  document.querySelectorAll("[data-mod]").forEach(input => { input.checked = Boolean(modConfig[input.dataset.mod]); });
+  const scale = document.querySelector("#hudScale");
+  const x = document.querySelector("#hudX");
+  const y = document.querySelector("#hudY");
+  const address = document.querySelector("#hudServerAddress");
+  if (scale) scale.value = modConfig.scale;
+  if (x) x.value = modConfig.x;
+  if (y) y.value = modConfig.y;
+  if (address) address.value = modConfig.addressText;
+  const outputs = { hudScaleValue: modConfig.scale + "%", hudXValue: modConfig.x + "%", hudYValue: modConfig.y + "%" };
+  for (const [id, value] of Object.entries(outputs)) {
+    const output = document.getElementById(id);
+    if (output) output.textContent = value;
+  }
+}
+document.querySelectorAll("[data-mod]").forEach(input => input.addEventListener("change", () => {
+  modConfig[input.dataset.mod] = input.checked;
+  saveModConfig();
+}));
+for (const [id, key] of [["hudScale", "scale"], ["hudX", "x"], ["hudY", "y"]]) {
+  document.querySelector("#" + id)?.addEventListener("input", event => {
+    modConfig[key] = Number(event.target.value);
+    saveModConfig();
+    const out = document.querySelector("#" + id + "Value");
+    if (out) out.textContent = event.target.value + "%";
+  });
+}
+document.querySelector("#hudServerAddress")?.addEventListener("change", event => {
+  modConfig.addressText = event.target.value.trim().slice(0, 120);
+  saveModConfig();
+});
+applyHudConfig();
+
+let fpsFrames = 0;
+let fpsLast = performance.now();
+function measureBrowserFps(now) {
+  fpsFrames++;
+  if (now - fpsLast >= 1000) {
+    const fps = Math.round(fpsFrames * 1000 / (now - fpsLast));
+    const node = document.querySelector("#hudFps");
+    if (node) node.textContent = "FPS: " + fps;
+    fpsFrames = 0;
+    fpsLast = now;
+  }
+  requestAnimationFrame(measureBrowserFps);
+}
+requestAnimationFrame(measureBrowserFps);
