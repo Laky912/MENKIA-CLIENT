@@ -110,15 +110,44 @@
     <div id="gameLoading" class="game-loading"><div class="loading-mark">M</div><span class="loading-eyebrow">MENKIA CLIENT</span><h2 id="gameLoadingTitle">INICIANDO CLIENTE</h2><p id="gameLoadingText">Preparando el motor de Minecraft 1.12.2...</p><div class="loading-track"><span></span></div><small>NO CIERRES ESTA VENTANA</small></div>
     <div id="menkiaGameHud" class="menkia-game-hud" aria-hidden="true">
       <span class="hud-chip"><i></i> MENKIA CLIENT</span>
-      <span class="hud-chip">1.12.2</span>
+      <span class="hud-chip" id="hudFps" hidden>FPS: --</span>
+      <span class="hud-chip" id="hudPing" hidden>PING: --</span>
+      <span class="hud-chip" id="hudTps" hidden>TPS: --</span>
+      <span class="hud-chip" id="hudAddress" hidden>SERVER: --</span>
     </div>
+    <section id="menkiaMainMenu" class="menkia-main-menu" aria-label="Menú principal MENKIA">
+      <div class="main-menu-backdrop"></div><div class="main-menu-content">
+        <div class="main-menu-brand"><span class="main-menu-logo">M</span><span>MENKIA<small>CLIENT 1.12.2</small></span></div>
+        <div class="main-menu-copy"><span class="main-menu-kicker">YOUR GAME. YOUR RULES.</span><h1>MENKIA<br><em>CLIENT</em></h1><p>Una nueva forma de jugar Minecraft.</p></div>
+        <div class="main-menu-actions">
+          <button id="menuSingleplayer" class="main-menu-primary" type="button">ENTRAR AL JUEGO <b>▶</b></button>
+          <button id="menuMultiplayer" type="button">MULTIJUGADOR</button>
+          <button id="menuMods" type="button">MODS Y HUD</button>
+          <button id="menuOptions" type="button">OPCIONES</button>
+          <button id="menuBackClassic" type="button">MENÚ ORIGINAL DE MINECRAFT</button>
+        </div>
+        <div class="main-menu-footer"><span>MENKIA NETWORK · PRÓXIMAMENTE</span><span>BUILD 01 / BETA</span></div>
+      </div>
+    </section>
     <aside id="menkiaGamePanel" class="menkia-game-panel" hidden aria-label="Panel de MENKIA">
-      <div class="menkia-panel-heading"><div><small>MENKIA CLIENT</small><h2>GAME PANEL</h2></div><button id="closeGamePanel" type="button" aria-label="Cerrar panel">×</button></div>
-      <p class="menkia-panel-desc">Tu espacio de configuración dentro del juego.</p>
-      <div class="menkia-panel-mode"><span>INTERFAZ ACTUAL</span><strong id="gameModeLabel">MENKIA</strong></div>
-      <button id="panelModeButton" class="menkia-panel-action" type="button">CAMBIAR A CLÁSICO</button>
-      <div class="menkia-panel-hint"><kbd>RSHIFT</kbd><span>Mostrar u ocultar este panel</span></div>
-      <div class="menkia-panel-note">Esta primera versión añade una capa propia de MENKIA sobre el juego. Los menús internos originales de Minecraft siguen perteneciendo al motor.</div>
+      <div class="menkia-panel-heading"><div><small>MENKIA CLIENT</small><h2>MODS & HUD</h2></div><button id="closeGamePanel" type="button" aria-label="Cerrar panel">×</button></div>
+      <p class="menkia-panel-desc">Personaliza los indicadores y las funciones del cliente.</p>
+      <div class="mod-list">
+        <div class="mod-row"><div><b>FPS Counter</b><small>Fotogramas por segundo (medición del navegador)</small></div><input class="mod-toggle" data-mod="fps" type="checkbox" checked></div>
+        <div class="mod-row"><div><b>Free Look</b><small>Girar cámara sin mover al jugador · requiere motor</small></div><input class="mod-toggle" data-mod="freelook" type="checkbox"></div>
+        <div class="mod-row"><div><b>Effects</b><small>Panel de efectos · requiere integración al motor</small></div><input class="mod-toggle" data-mod="effects" type="checkbox"></div>
+        <div class="mod-row"><div><b>TPS</b><small>Ticks por segundo · requiere datos del servidor</small></div><input class="mod-toggle" data-mod="tps" type="checkbox"></div>
+        <div class="mod-row"><div><b>Ping</b><small>Latencia real · requiere conexión consultable</small></div><input class="mod-toggle" data-mod="ping" type="checkbox"></div>
+        <div class="mod-row"><div><b>Server Address</b><small>Mostrar dirección configurada</small></div><input class="mod-toggle" data-mod="address" type="checkbox"></div>
+      </div>
+      <label class="mod-address">DIRECCIÓN DEL SERVIDOR<input id="hudServerAddress" type="text" maxlength="120" placeholder="play.ejemplo.net"></label>
+      <div class="hud-customize"><h3>PERSONALIZAR HUD</h3>
+        <label>TAMAÑO <output id="hudScaleValue">100%</output><input id="hudScale" type="range" min="70" max="150" value="100"></label>
+        <label>POSICIÓN HORIZONTAL <output id="hudXValue">16%</output><input id="hudX" type="range" min="0" max="90" value="3"></label>
+        <label>POSICIÓN VERTICAL <output id="hudYValue">16%</output><input id="hudY" type="range" min="0" max="90" value="4"></label>
+      </div>
+      <div class="menkia-panel-hint"><kbd>RSHIFT</kbd><span>Abrir o cerrar el panel</span></div>
+      <p class="menkia-panel-note" id="modsStatus">FPS puede mostrarse ahora. Free Look, Effects, TPS y Ping necesitan integración con el motor/servidor.</p>
     </aside>
     <iframe id="gameFrame" title="MENKIA Client Minecraft 1.12.2" allow="fullscreen; gamepad; clipboard-read; clipboard-write; autoplay; pointer-lock" allowfullscreen></iframe>
   </section>
