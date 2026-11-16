@@ -249,3 +249,133 @@ body.game-open{overflow:hidden}
 .player-panel{box-shadow:0 12px 32px #0007;}
 .dashboard-card:after{filter:none;}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* MENKIA in-game GUI refresh — Lunar-inspired layout, original MENKIA identity */
+.menkia-main-menu{
+  inset:52px 0 0;
+  background:
+    radial-gradient(ellipse at 76% 45%,#6c83b51b,transparent 42%),
+    linear-gradient(115deg,#090d16f7 0%,#0b101bf2 58%,#090d16e8 100%);
+  overflow:auto;
+}
+.main-menu-backdrop{
+  background:
+    linear-gradient(90deg,#080b13e8 0%,#080b1380 58%,#080b13a8 100%),
+    radial-gradient(circle at 78% 50%,#5c8fce24,transparent 38%);
+}
+.main-menu-content{
+  width:min(1120px,100%);
+  min-height:100%;
+  margin:0 auto;
+  padding:clamp(25px,5vh,54px) clamp(22px,5vw,64px) 26px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(275px,350px);
+  grid-template-rows:auto minmax(0,1fr) auto;
+  column-gap:clamp(28px,6vw,82px);
+  row-gap:20px;
+}
+.main-menu-brand{
+  grid-column:1/-1;
+  align-self:start;
+  gap:11px;
+  font-size:13px;
+  letter-spacing:2px;
+}
+.main-menu-logo{
+  width:35px;height:35px;border-radius:7px;
+  background:linear-gradient(145deg,#9a8aff,#6c78ce);
+  color:#fff;font-size:23px;box-shadow:0 5px 22px #6d76d533;
+}
+.main-menu-brand small{font-size:8px;letter-spacing:1.7px;color:#8e9bb0}
+.main-menu-copy{
+  align-self:center;
+  margin:0;
+  max-width:560px;
+}
+.main-menu-kicker{
+  display:inline-flex;align-items:center;gap:9px;
+  color:#93a9c7;font-size:9px;letter-spacing:2.4px;
+}
+.main-menu-kicker:before{
+  content:"";width:20px;height:1px;background:#8c9fd0;display:inline-block;
+}
+.main-menu-copy h1{
+  font:900 clamp(58px,8vw,94px)/.82 'Barlow Condensed',sans-serif;
+  letter-spacing:-1px;margin:19px 0 16px;
+}
+.main-menu-copy h1 em{color:#a9a5ff}
+.main-menu-copy p{max-width:360px;color:#9aa7bb;font-size:12px;line-height:1.7}
+.main-menu-actions{
+  align-self:center;justify-self:stretch;
+  width:100%;gap:8px;padding:13px;
+  border:1px solid #ffffff16;border-radius:9px;
+  background:linear-gradient(145deg,#151c2aeb,#0e1420ed);
+  box-shadow:0 18px 55px #0005;
+}
+.main-menu-actions button{
+  display:flex;align-items:center;justify-content:space-between;
+  min-height:43px;width:100%;padding:0 14px;
+  border:1px solid #ffffff0c;border-radius:5px;
+  background:#ffffff06;color:#cbd4e4;
+  font:750 9px 'DM Sans',sans-serif;letter-spacing:1.1px;
+  transition:background .16s,border-color .16s,color .16s;
+}
+.main-menu-actions button:hover{
+  transform:none;background:#9a91ff14;border-color:#9b96ff55;color:#fff;
+}
+.main-menu-actions .main-menu-primary{
+  min-height:52px;margin:0 0 5px;padding:0 16px;
+  border:1px solid #a49bff;background:linear-gradient(100deg,#8178dd,#9b8af0);
+  color:#fff;box-shadow:0 7px 24px #776bdc35;
+}
+.main-menu-actions .main-menu-primary:hover{
+  background:linear-gradient(100deg,#9188ed,#aa9aff);color:white;
+}
+.main-menu-actions .main-menu-primary b{font-size:13px}
+.main-menu-actions button:last-child{
+  justify-content:center;min-height:34px;margin-top:4px;
+  background:transparent;border-color:transparent;color:#78869c;font-size:8px;
+}
+.main-menu-actions button:last-child:hover{background:#ffffff08;border-color:#ffffff14;color:#c6d0e1}
+.main-menu-footer{
+  grid-column:1/-1;align-self:end;
+  margin:0;padding-top:14px;border-top:1px solid #ffffff14;
+  color:#748198;font-size:8px;letter-spacing:1.2px;
+}
+.menkia-game-panel{
+  top:64px;right:18px;width:min(360px,calc(100vw - 36px));
+  max-height:calc(100% - 82px);padding:18px;
+  border:1px solid #ffffff20;border-radius:9px;
+  background:linear-gradient(145deg,#151c2aF7,#0c111cf7);
+  box-shadow:0 20px 65px #0009;
+}
+.menkia-panel-heading small{color:#8f9db4;letter-spacing:1.8px}
+.menkia-panel-heading h2{font:800 22px 'Barlow Condensed';letter-spacing:1px}
+.menkia-panel-desc{font-size:10px;color:#9aa7bb}
+.mod-row{padding:12px 0;border-bottom-color:#ffffff0d}
+.mod-row b{font-size:10px;font-weight:700;color:#e1e7f2}
+.mod-row small{color:#8491a7}
+.mod-toggle{width:32px;height:18px;flex-basis:32px;background:#354052}
+.mod-toggle:checked{background:#8178dd}
+.mod-toggle:before{width:12px;height:12px}
+.mod-toggle:checked:before{left:17px}
+.mod-address input{background:#0a0f19;border-color:#303a4d}
+.hud-customize{border-top-color:#ffffff12}
+.hud-customize h3{font-size:17px;color:#e3e8f3}
+.hud-customize label{color:#9aa7bb}
+.hud-customize output{color:#b8b1ff}
+.hud-customize input{accent-color:#9388ef}
+.menkia-panel-note{color:#8491a7}
+@media(max-width:700px){
+  .main-menu-content{
+    grid-template-columns:1fr;grid-template-rows:auto auto auto auto;
+    row-gap:20px;padding:24px 20px;
+  }
+  .main-menu-brand{grid-column:1}
+  .main-menu-copy{align-self:start;margin:16px 0 0}
+  .main-menu-copy h1{font-size:68px}
+  .main-menu-actions{align-self:start;max-width:420px}
+  .main-menu-footer{grid-column:1;flex-wrap:wrap}
+  .menkia-game-panel{right:8px;top:60px}
+}
