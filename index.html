@@ -27,8 +27,7 @@
         <h1>MENKIA<br><span>CLIENT.</span></h1>
         <p>Tu Minecraft. Tu configuración. Tu experiencia.</p>
         <button id="playButton" class="play-button"><span class="play-icon">▶</span> JUGAR <span class="button-arrow">↗</span></button>
-        <div id="playMessage" class="play-message" role="status">Importa el HTML del motor una vez para habilitar el juego en este navegador.</div>
-        <button id="importEngineButton" class="import-engine-button" type="button">IMPORTAR MOTOR</button>
+        <div id="playMessage" class="play-message" role="status">Minecraft 1.12.2 está listo para abrirse desde MENKIA.</div>
         <div class="launcher-details"><div><small>VERSIÓN</small><b>1.12.2</b></div><div><small>PLATAFORMA</small><b>NAVEGADOR</b></div><div><small>ESTADO</small><b class="pending-state">EN DESARROLLO</b></div></div><div class="hero-meta"><span>MENKIA NETWORK <b>· PRÓXIMAMENTE</b></span></div>
       </div>
       <div class="player-panel">
@@ -49,7 +48,7 @@
         <article class="dashboard-card game-card">
           <div class="dashboard-card-top"><span class="dash-icon">▣</span><span class="dash-kicker">EXPERIENCIA</span></div>
           <h3>MINECRAFT 1.12.2</h3><p>La experiencia clásica que estamos preparando para tu navegador.</p>
-          <span class="dash-status pending">MOTOR PENDIENTE</span>
+          <span class="dash-status pending">ACCESO WEB INTEGRADO</span>
         </article>
         <a class="dashboard-card shortcut-card" href="#profile">
           <div class="dashboard-card-top"><span class="dash-icon">◈</span><span class="dash-kicker">PERSONALIZACIÓN</span></div>
@@ -104,9 +103,8 @@
         <button id="closeGameButton" type="button">VOLVER AL LAUNCHER</button>
       </div>
     </header>
-    <iframe id="gameFrame" title="Minecraft Eaglercraft 1.12.2" allow="fullscreen; gamepad; clipboard-read; clipboard-write" allowfullscreen></iframe>
+    <iframe id="gameFrame" title="Minecraft Eaglercraft 1.12.2" allow="fullscreen; gamepad; clipboard-read; clipboard-write; autoplay; pointer-lock" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
   </section>
-  <input id="engineFileInput" type="file" accept=".html,text/html" hidden>
   <footer><span class="brand-small">MENKIA CLIENT</span><span>UN PROYECTO INDEPENDIENTE · NO OFICIAL DE MOJANG</span></footer>
   <script src="./web/app.js"></script>
 </body>
