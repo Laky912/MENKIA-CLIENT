@@ -102,10 +102,21 @@ document.querySelector("#saveProfile").addEventListener("click", async () => {
   }
 });
 
-// Motor integrado mediante el acceso web oficial de Eaglercraft 1.12.2 WASM-GC.
-// El juego se carga al pulsar JUGAR, sin importar archivos ni instalar nada.
-const GAME_URL = "https://dev.eaglercraft.com/play?version=1.12.2-wasm";
+// Motor propio alojado dentro del repositorio MENKIA.
+// La ruta apunta al HTML del juego publicado junto al launcher, no a una web externa.
+const GAME_URL = "./game/eaglercraft1-12-wasm.html";
 let gameStarted = false;
+
+function setGameLoading(title, message, isError = false) {
+  const loading = document.querySelector("#gameLoading");
+  const heading = document.querySelector("#gameLoadingTitle");
+  const detail = document.querySelector("#gameLoadingText");
+  if (!loading) return;
+  loading.hidden = false;
+  loading.classList.toggle("loading-error", isError);
+  if (heading) heading.textContent = title;
+  if (detail) detail.textContent = message;
+}
 
 function launchEngine() {
   const frame = document.querySelector("#gameFrame");
@@ -114,23 +125,37 @@ function launchEngine() {
   overlay.hidden = false;
   document.body.classList.add("game-open");
   if (!gameStarted) {
+    setGameLoading("INICIANDO CLIENTE", "Cargando el motor local de MENKIA...");
     frame.src = GAME_URL;
     gameStarted = true;
   }
 }
 
 function closeEngine() {
-  const frame = document.querySelector("#gameFrame");
   const overlay = document.querySelector("#gameOverlay");
   if (overlay) overlay.hidden = true;
   document.body.classList.remove("game-open");
-  // Mantener el iframe activo conserva la sesión mientras se vuelve al launcher.
 }
 
-document.querySelector("#playButton").addEventListener("click", () => {
-  launchEngine();
-});
+const gameFrame = document.querySelector("#gameFrame");
+if (gameFrame) {
+  gameFrame.addEventListener("load", () => {
+    try {
+      const doc = gameFrame.contentDocument;
+      const pageText = (doc?.body?.innerText || "").toLowerCase();
+      if (pageText.includes("404") || pageText.includes("not found") || pageText.includes("file not found")) {
+        setGameLoading("MOTOR NO ENCONTRADO", "Falta publicar el archivo del motor en /game/eaglercraft1-12-wasm.html.", true);
+        return;
+      }
+      const loading = document.querySelector("#gameLoading");
+      if (loading) loading.hidden = true;
+    } catch {
+      setGameLoading("NO SE PUDO ABRIR", "El motor debe estar alojado en el mismo sitio que MENKIA.", true);
+    }
+  });
+}
 
+document.querySelector("#playButton").addEventListener("click", launchEngine);
 document.querySelector("#closeGameButton").addEventListener("click", closeEngine);
 
 
