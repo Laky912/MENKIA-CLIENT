@@ -7,8 +7,11 @@ const DEFAULT_SKIN = "https://minotar.net/skin/Steve";
 let selectedSkin = "";
 let viewer = null;
 let viewerModule = null;
+let skinViewerStarted = false;
 
 async function setupSkinViewer() {
+  if (skinViewerStarted) return;
+  skinViewerStarted = true;
   try {
     viewerModule = await import("https://cdn.jsdelivr.net/npm/skinview3d@3.4.1/+esm");
     const canvas = document.querySelector("#skinCanvas");
@@ -18,6 +21,9 @@ async function setupSkinViewer() {
       height: 390,
       skin: DEFAULT_SKIN
     });
+    canvas.hidden = false;
+    const fallback = document.querySelector("#skinFallback");
+    if (fallback) fallback.hidden = true;
     viewer.controls.enableRotate = true;
     viewer.controls.enableZoom = false;
     viewer.controls.enablePan = false;
@@ -55,6 +61,7 @@ skinInput.addEventListener("change", async () => {
     saveStatus.textContent = "La imagen supera el límite de 2 MB.";
     return;
   }
+  await setupSkinViewer();
   const objectUrl = URL.createObjectURL(file);
   const image = new Image();
   image.onload = async () => {
@@ -136,6 +143,7 @@ function closeEngine() {
   const overlay = document.querySelector("#gameOverlay");
   if (overlay) overlay.hidden = true;
   document.body.classList.remove("game-open");
+  stopFpsMonitor();
 }
 
 const gameFrame = document.querySelector("#gameFrame");
@@ -150,6 +158,7 @@ if (gameFrame) {
       }
       const loading = document.querySelector("#gameLoading");
       if (loading) loading.hidden = true;
+      startFpsMonitor();
       const mainMenu = document.querySelector("#menkiaMainMenu");
       if (mainMenu) mainMenu.hidden = false;
     } catch {
@@ -231,7 +240,8 @@ function setupSettings() {
 }
 
 loadProfile();
-setupSkinViewer();
+const skinStage = document.querySelector(".avatar-stage");
+skinStage?.addEventListener("click", setupSkinViewer, { once: true });
 setupSettings();
 
 
@@ -380,8 +390,14 @@ document.querySelector("#hudServerAddress")?.addEventListener("change", event =>
 applyHudConfig();
 
 let fpsFrames = 0;
-let fpsLast = performance.now();
+let fpsLast = 0;
+let fpsRafId = 0;
 function measureBrowserFps(now) {
+  if (document.querySelector("#gameOverlay")?.hidden || !modConfig.fps) {
+    fpsRafId = 0;
+    return;
+  }
+  if (!fpsLast) fpsLast = now;
   fpsFrames++;
   if (now - fpsLast >= 1000) {
     const fps = Math.round(fpsFrames * 1000 / (now - fpsLast));
@@ -390,6 +406,23 @@ function measureBrowserFps(now) {
     fpsFrames = 0;
     fpsLast = now;
   }
-  requestAnimationFrame(measureBrowserFps);
+  fpsRafId = requestAnimationFrame(measureBrowserFps);
 }
-requestAnimationFrame(measureBrowserFps);
+function startFpsMonitor() {
+  if (!fpsRafId && modConfig.fps) {
+    fpsFrames = 0;
+    fpsLast = 0;
+    fpsRafId = requestAnimationFrame(measureBrowserFps);
+  }
+}
+function stopFpsMonitor() {
+  if (fpsRafId) cancelAnimationFrame(fpsRafId);
+  fpsRafId = 0;
+  fpsFrames = 0;
+  fpsLast = 0;
+}
+const fpsToggle = document.querySelector('[data-mod="fps"]');
+fpsToggle?.addEventListener("change", () => {
+  if (fpsToggle.checked && !document.querySelector("#gameOverlay")?.hidden) startFpsMonitor();
+  else stopFpsMonitor();
+});
