@@ -132,6 +132,7 @@ function launchEngine() {
   overlay.hidden = false;
   document.body.classList.add("game-open");
   document.querySelector("#menkiaMainMenu").hidden = gameStarted ? false : true;
+  if (gameStarted) startFpsMonitor();
   if (!gameStarted) {
     setGameLoading("INICIANDO CLIENTE", "Cargando el motor local de MENKIA...");
     frame.src = GAME_URL;
