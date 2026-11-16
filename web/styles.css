@@ -87,3 +87,52 @@
 .settings-footer button{background:transparent;border:1px solid #45415d;color:#c6b2ff;border-radius:5px;padding:10px 13px;font-size:8px;letter-spacing:1px;font-weight:800;cursor:pointer}
 .features-heading{margin-top:5px}
 @media(max-width:760px){.settings-layout{grid-template-columns:1fr}.settings-footer{align-items:flex-start;flex-direction:column}}
+
+
+/* MENKIA desktop launcher sidebar + single-view navigation */
+html{scroll-behavior:auto}
+body{min-height:100vh;overflow-x:hidden}
+.topbar{
+  position:fixed;inset:0 auto 0 0;width:224px;height:100vh;z-index:20;
+  padding:28px 17px;display:flex;flex-direction:column;align-items:stretch;
+  justify-content:flex-start;gap:42px;border-right:1px solid #ffffff14;
+  border-bottom:0;background:#0b0e17ed;backdrop-filter:blur(18px)
+}
+.brand{padding:0 8px;font-size:13px}
+.topbar nav.sidebar-nav{display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.sidebar-label{padding:0 12px 8px;color:#657087;font-size:8px;font-weight:800;letter-spacing:1.6px}
+.sidebar-nav a{
+  display:flex;align-items:center;gap:13px;padding:13px 12px;border-radius:7px;
+  color:#8993a8;text-decoration:none;font-size:10px;font-weight:800;letter-spacing:1.2px;
+  border:1px solid transparent;transition:.18s
+}
+.sidebar-nav a span{width:19px;text-align:center;color:#a78bfa;font-size:17px}
+.sidebar-nav a:hover,.sidebar-nav a.active{
+  color:#f5f2ff;background:#a78bfa18;border-color:#a78bfa35
+}
+.sidebar-nav a.active span{color:#d4c5ff}
+.sidebar-label-bottom{margin-top:auto;padding-top:20px;border-top:1px solid #ffffff12;line-height:1.8}
+.topbar>.version{margin-top:auto;padding:0 10px;color:#929bb0;font-size:9px}
+#home{margin-left:224px;min-height:100vh;padding:1px 0 30px}
+.hero{max-width:1250px;min-height:calc(100vh - 40px);padding:65px 5%;gap:45px}
+.launcher-dashboard{max-width:1250px;padding:20px 5% 45px}
+.profile-section,.features-section{max-width:1250px;min-height:calc(100vh - 40px);padding:65px 5%;border-top:0}
+#home [hidden]{display:none!important}
+footer{margin-left:224px}
+@media(max-width:760px){
+  .topbar{width:68px;padding:18px 8px;gap:30px}
+  .brand{justify-content:center;padding:0;font-size:0}
+  .brand-mark{flex:0 0 34px}
+  .brand-light,.brand>span:last-child{display:none}
+  .topbar nav.sidebar-nav{gap:7px}
+  .sidebar-label,.sidebar-label-bottom,.sidebar-nav a:not(.active){font-size:0}
+  .sidebar-label{display:none}
+  .sidebar-nav a{justify-content:center;padding:12px 5px}
+  .sidebar-nav a span{font-size:19px}
+  .topbar>.version{display:none}
+  #home{margin-left:68px}
+  footer{margin-left:68px;padding:18px}
+  .hero{padding:45px 20px;grid-template-columns:1fr;min-height:auto}
+  .profile-section,.features-section{padding:45px 20px;min-height:auto}
+  .launcher-dashboard{padding:15px 20px 40px}
+}
