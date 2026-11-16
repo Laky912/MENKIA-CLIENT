@@ -66,7 +66,22 @@
       <div class="profile-actions"><button id="saveProfile" class="save-button">GUARDAR PERFIL</button><span id="saveStatus" role="status">Los cambios se guardan en este navegador.</span></div>
     </section>
     <section id="settings" class="features-section">
-      <div class="section-heading"><div><span class="eyebrow">DISEÑADO PARA TI</span><h2>LO QUE VIENE</h2></div><span class="section-number">02 / FEATURES</span></div>
+      <div class="section-heading"><div><span class="eyebrow">CONFIGURA TU EXPERIENCIA</span><h2>AJUSTES DE MENKIA</h2></div><span class="section-number">02 / SETTINGS</span></div>
+      <div class="settings-layout">
+        <div class="settings-group">
+          <div class="settings-group-heading"><span class="settings-symbol">◉</span><div><h3>RENDIMIENTO</h3><p>Preferencias que usará el cliente cuando conectemos el motor.</p></div></div>
+          <label class="setting-row"><span><b>Calidad gráfica</b><small>Perfil visual preferido</small></span><select id="graphicsQuality"><option value="fast">Rendimiento</option><option value="balanced" selected>Equilibrado</option><option value="fancy">Calidad</option></select></label>
+          <label class="setting-row"><span><b>Partículas</b><small>Mostrar efectos y partículas</small></span><input class="toggle" id="particlesEnabled" type="checkbox" checked></label>
+        </div>
+        <div class="settings-group">
+          <div class="settings-group-heading"><span class="settings-symbol">⌗</span><div><h3>HUD Y VISUALIZACIÓN</h3><p>Elige qué indicadores quieres tener disponibles.</p></div></div>
+          <label class="setting-row"><span><b>Contador de FPS</b><small>Fotogramas por segundo</small></span><input class="toggle" id="showFps" type="checkbox" checked></label>
+          <label class="setting-row"><span><b>Contador de CPS</b><small>Clics por segundo</small></span><input class="toggle" id="showCps" type="checkbox"></label>
+          <label class="setting-row"><span><b>Keystrokes</b><small>Visualización de teclas WASD</small></span><input class="toggle" id="showKeystrokes" type="checkbox" checked></label>
+        </div>
+      </div>
+      <div class="settings-footer"><span id="settingsStatus" role="status">Los ajustes se guardan automáticamente en este navegador.</span><button id="resetSettings" type="button">RESTABLECER</button></div>
+      <div class="section-heading features-heading"><div><span class="eyebrow">EN EL HORIZONTE</span><h2>FUNCIONES DEL CLIENTE</h2></div><span class="section-number">03 / FEATURES</span></div>
       <div class="feature-grid">
         <article><span>01</span><h3>HUD PERSONALIZADO</h3><p>FPS, CPS, Keystrokes y ArmorHUD.</p><b>EN DESARROLLO</b></article>
         <article><span>02</span><h3>RENDIMIENTO</h3><p>Opciones gráficas y ajustes para una experiencia fluida.</p><b>PLANIFICADO</b></article>
