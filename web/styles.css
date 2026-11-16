@@ -138,8 +138,7 @@ footer{margin-left:224px}
 }
 
 
-/* MENKIA Game shell — integrated browser game */
-.play-button:disabled{opacity:.65;cursor:wait;transform:none}
+/* MENKIA own-client game shell */
 .game-overlay{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:#050608}
 .game-overlay[hidden]{display:none!important}
 .game-toolbar{height:52px;min-height:52px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;background:#0b0e16;border-bottom:1px solid #ffffff18}
@@ -151,5 +150,19 @@ footer{margin-left:224px}
 .game-toolbar button{padding:9px 12px;border:1px solid #ffffff24;border-radius:5px;background:#171d2a;color:#f4f5fb;font:700 9px 'DM Sans',sans-serif;letter-spacing:1px;cursor:pointer}
 .game-toolbar button:hover{border-color:var(--accent);color:var(--accent)}
 #gameFrame{display:block;width:100%;height:calc(100% - 52px);flex:1;border:0;background:#000}
+.game-loading{position:absolute;inset:52px 0 0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;background:radial-gradient(ellipse at 50% 42%,#24203d 0%,#10131e 42%,#070910 100%);color:#f4f5fb;text-align:center}
+.game-loading[hidden]{display:none!important}
+.loading-mark{width:66px;height:66px;display:grid;place-items:center;border:1px solid #b49aff80;border-radius:16px;background:#a78bfa20;color:#d5c7ff;font:900 42px 'Barlow Condensed';box-shadow:0 0 55px #9d7cff35;animation:menkia-pulse 1.8s ease-in-out infinite}
+.loading-eyebrow{margin-top:14px;color:#bca9ff;font-size:9px;font-weight:900;letter-spacing:3px}
+.game-loading h2{margin:0;font:900 28px 'Barlow Condensed';letter-spacing:1.8px}
+.game-loading p{margin:0;color:#a1a9bb;font-size:11px}
+.loading-track{width:min(260px,65vw);height:3px;margin-top:13px;overflow:hidden;border-radius:8px;background:#ffffff17}
+.loading-track span{display:block;width:38%;height:100%;border-radius:8px;background:#b49aff;box-shadow:0 0 12px #a78bfa;animation:menkia-load 1.4s ease-in-out infinite}
+.game-loading small{margin-top:7px;color:#657087;font-size:8px;letter-spacing:1.5px}
+.game-loading.loading-error .loading-mark{animation:none;border-color:#ff777780;color:#ff9b9b}
+.game-loading.loading-error .loading-eyebrow{color:#ff9b9b}
+.game-loading.loading-error .loading-track{display:none}
+@keyframes menkia-load{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
+@keyframes menkia-pulse{50%{transform:scale(1.06);box-shadow:0 0 75px #9d7cff55}}
 body.game-open{overflow:hidden}
-@media(max-width:600px){.game-toolbar{padding:0 10px}.game-engine-label{display:none}.game-toolbar-actions{gap:8px}.game-toolbar button{font-size:8px;padding:8px}}
+@media(max-width:600px){.game-toolbar{padding:0 10px}.game-engine-label{display:none}.game-toolbar-actions{gap:8px}.game-toolbar button{font-size:8px;padding:8px}.game-loading h2{font-size:24px}}
