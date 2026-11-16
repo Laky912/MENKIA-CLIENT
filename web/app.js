@@ -102,140 +102,33 @@ document.querySelector("#saveProfile").addEventListener("click", async () => {
   }
 });
 
-// Motor externo: se importa una vez desde el HTML oficial descargado por el usuario.
-// No publicamos ni redistribuimos el binario del juego dentro de este repositorio.
-const ENGINE_DB_NAME = "menkia-engine-storage";
-const ENGINE_DB_VERSION = 1;
-const ENGINE_STORE_NAME = "engines";
-const ENGINE_STORE_KEY = "eaglercraft-1.12-wasm-gc";
-const ENGINE_HTML_SHA256 = "5898e022ad0deedfc20cded4f1e64b40e8db8e4d12a030cdae5488464ba1e88c";
-let activeEngineUrl = "";
+// Motor integrado mediante el acceso web oficial de Eaglercraft 1.12.2 WASM-GC.
+// El juego se carga al pulsar JUGAR, sin importar archivos ni instalar nada.
+const GAME_URL = "https://dev.eaglercraft.com/play?version=1.12.2-wasm";
+let gameStarted = false;
 
-function openEngineDatabase() {
-  return new Promise((resolve, reject) => {
-    if (!("indexedDB" in window)) return reject(new Error("IndexedDB no está disponible."));
-    const request = indexedDB.open(ENGINE_DB_NAME, ENGINE_DB_VERSION);
-    request.onupgradeneeded = () => {
-      const db = request.result;
-      if (!db.objectStoreNames.contains(ENGINE_STORE_NAME)) db.createObjectStore(ENGINE_STORE_NAME);
-    };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error || new Error("No se pudo abrir el almacenamiento."));
-  });
-}
-
-async function storeEngineFile(file) {
-  const db = await openEngineDatabase();
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(ENGINE_STORE_NAME, "readwrite");
-    transaction.objectStore(ENGINE_STORE_NAME).put(file, ENGINE_STORE_KEY);
-    transaction.oncomplete = () => { db.close(); resolve(); };
-    transaction.onerror = () => { db.close(); reject(transaction.error || new Error("No se pudo guardar el motor.")); };
-    transaction.onabort = () => { db.close(); reject(transaction.error || new Error("Se canceló el guardado del motor.")); };
-  });
-}
-
-async function readStoredEngine() {
-  const db = await openEngineDatabase();
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(ENGINE_STORE_NAME, "readonly");
-    const request = transaction.objectStore(ENGINE_STORE_NAME).get(ENGINE_STORE_KEY);
-    request.onsuccess = () => { const value = request.result || null; db.close(); resolve(value); };
-    request.onerror = () => { db.close(); reject(request.error || new Error("No se pudo leer el motor guardado.")); };
-  });
-}
-
-async function sha256(file) {
-  if (!crypto.subtle) throw new Error("La verificación requiere un navegador moderno con HTTPS.");
-  const digest = await crypto.subtle.digest("SHA-256", await file.arrayBuffer());
-  return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
-}
-
-function showEngineMessage(message) {
-  const status = document.querySelector("#playMessage");
-  if (status) status.textContent = message;
-}
-
-function launchEngine(fileBlob) {
+function launchEngine() {
   const frame = document.querySelector("#gameFrame");
   const overlay = document.querySelector("#gameOverlay");
-  if (!frame || !overlay || !fileBlob) return;
-  if (activeEngineUrl) URL.revokeObjectURL(activeEngineUrl);
-  activeEngineUrl = URL.createObjectURL(fileBlob);
-  frame.src = activeEngineUrl;
+  if (!frame || !overlay) return;
   overlay.hidden = false;
   document.body.classList.add("game-open");
+  if (!gameStarted) {
+    frame.src = GAME_URL;
+    gameStarted = true;
+  }
 }
 
 function closeEngine() {
   const frame = document.querySelector("#gameFrame");
   const overlay = document.querySelector("#gameOverlay");
-  if (frame) frame.src = "about:blank";
   if (overlay) overlay.hidden = true;
   document.body.classList.remove("game-open");
-  if (activeEngineUrl) {
-    const oldUrl = activeEngineUrl;
-    activeEngineUrl = "";
-    setTimeout(() => URL.revokeObjectURL(oldUrl), 1000);
-  }
+  // Mantener el iframe activo conserva la sesión mientras se vuelve al launcher.
 }
 
-async function importEngineFile(file) {
-  if (!file) return;
-  if (file.size > 35 * 1024 * 1024) {
-    showEngineMessage("El archivo es demasiado grande. Selecciona el HTML extraído del ZIP.");
-    return;
-  }
-  showEngineMessage("Verificando el motor…");
-  try {
-    const digest = await sha256(file);
-    if (digest !== ENGINE_HTML_SHA256) {
-      showEngineMessage("Este HTML no coincide con el motor esperado. Extrae el archivo original Eaglercraft 1.12 WASM-GC y vuelve a intentarlo.");
-      return;
-    }
-    try {
-      await storeEngineFile(file);
-      showEngineMessage("Motor verificado y guardado en este navegador. Iniciando…");
-    } catch (storageError) {
-      console.warn("MENKIA: no se pudo guardar el motor de forma persistente:", storageError);
-      showEngineMessage("Motor verificado. Se iniciará esta vez; quizá debas importarlo de nuevo después.");
-    }
-    launchEngine(file);
-  } catch (error) {
-    console.error("MENKIA engine import:", error);
-    showEngineMessage(error.message || "No se pudo verificar el motor.");
-  }
-}
-
-document.querySelector("#importEngineButton").addEventListener("click", () => {
-  document.querySelector("#engineFileInput").click();
-});
-
-document.querySelector("#engineFileInput").addEventListener("change", event => {
-  const file = event.target.files && event.target.files[0];
-  importEngineFile(file);
-  event.target.value = "";
-});
-
-document.querySelector("#playButton").addEventListener("click", async () => {
-  const button = document.querySelector("#playButton");
-  button.disabled = true;
-  try {
-    const engine = await readStoredEngine();
-    if (engine) {
-      showEngineMessage("Cargando MENKIA Game…");
-      launchEngine(engine);
-    } else {
-      showEngineMessage("Primero importa el HTML del motor. Solo tendrás que hacerlo una vez en este navegador.");
-      document.querySelector("#engineFileInput").click();
-    }
-  } catch (error) {
-    console.warn("MENKIA engine storage:", error);
-    showEngineMessage("Importa el HTML del motor para comenzar. Si el navegador no permite guardarlo, tendrás que importarlo cada vez.");
-    document.querySelector("#engineFileInput").click();
-  } finally {
-    button.disabled = false;
-  }
+document.querySelector("#playButton").addEventListener("click", () => {
+  launchEngine();
 });
 
 document.querySelector("#closeGameButton").addEventListener("click", closeEngine);
