@@ -1,4 +1,4 @@
 [submodule "launcher"]
 	path = launcher
-	url = https://github.com/MultiMC/Launcher.git
+	url = https://github.com/Laky912/MENKIA-LAUNCHER.git
 	branch = develop
