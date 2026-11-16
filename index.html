@@ -100,10 +100,27 @@
       <span class="game-brand"><b>M</b> MENKIA <i>/ GAME</i></span>
       <div class="game-toolbar-actions">
         <span class="game-engine-label">MENKIA CLIENT · 1.12.2</span>
-        <button id="closeGameButton" type="button">VOLVER AL LAUNCHER</button>
+        <div class="game-toolbar-buttons">
+          <button id="gameModeButton" type="button" aria-pressed="true">MENKIA UI</button>
+          <button id="gamePanelButton" type="button" aria-expanded="false">PANEL <kbd>RSHIFT</kbd></button>
+          <button id="closeGameButton" type="button">VOLVER AL LAUNCHER</button>
+        </div>
       </div>
     </header>
-    <div id="gameLoading" class="game-loading"><div class="loading-mark">M</div><span class="loading-eyebrow">MENKIA CLIENT</span><h2 id="gameLoadingTitle">INICIANDO CLIENTE</h2><p id="gameLoadingText">Preparando el motor de Minecraft 1.12.2...</p><div class="loading-track"><span></span></div><small>NO CIERRES ESTA VENTANA</small></div><iframe id="gameFrame" title="MENKIA Client Minecraft 1.12.2" allow="fullscreen; gamepad; clipboard-read; clipboard-write; autoplay; pointer-lock" allowfullscreen></iframe>
+    <div id="gameLoading" class="game-loading"><div class="loading-mark">M</div><span class="loading-eyebrow">MENKIA CLIENT</span><h2 id="gameLoadingTitle">INICIANDO CLIENTE</h2><p id="gameLoadingText">Preparando el motor de Minecraft 1.12.2...</p><div class="loading-track"><span></span></div><small>NO CIERRES ESTA VENTANA</small></div>
+    <div id="menkiaGameHud" class="menkia-game-hud" aria-hidden="true">
+      <span class="hud-chip"><i></i> MENKIA CLIENT</span>
+      <span class="hud-chip">1.12.2</span>
+    </div>
+    <aside id="menkiaGamePanel" class="menkia-game-panel" hidden aria-label="Panel de MENKIA">
+      <div class="menkia-panel-heading"><div><small>MENKIA CLIENT</small><h2>GAME PANEL</h2></div><button id="closeGamePanel" type="button" aria-label="Cerrar panel">×</button></div>
+      <p class="menkia-panel-desc">Tu espacio de configuración dentro del juego.</p>
+      <div class="menkia-panel-mode"><span>INTERFAZ ACTUAL</span><strong id="gameModeLabel">MENKIA</strong></div>
+      <button id="panelModeButton" class="menkia-panel-action" type="button">CAMBIAR A CLÁSICO</button>
+      <div class="menkia-panel-hint"><kbd>RSHIFT</kbd><span>Mostrar u ocultar este panel</span></div>
+      <div class="menkia-panel-note">Esta primera versión añade una capa propia de MENKIA sobre el juego. Los menús internos originales de Minecraft siguen perteneciendo al motor.</div>
+    </aside>
+    <iframe id="gameFrame" title="MENKIA Client Minecraft 1.12.2" allow="fullscreen; gamepad; clipboard-read; clipboard-write; autoplay; pointer-lock" allowfullscreen></iframe>
   </section>
   <footer><span class="brand-small">MENKIA CLIENT</span><span>UN PROYECTO INDEPENDIENTE · NO OFICIAL DE MOJANG</span></footer>
   <script src="./web/app.js"></script>
