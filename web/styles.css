@@ -193,3 +193,50 @@ body.game-open{overflow:hidden}
 .game-overlay.classic-mode .menkia-game-hud{display:none}
 .game-overlay.classic-mode .game-toolbar-buttons button:first-child{border-color:#ffffff24;background:#171d2a;color:#f4f5fb}
 @media(max-width:600px){.game-toolbar-buttons{gap:5px}.game-toolbar-buttons button{padding:7px 8px;font-size:7px}.game-toolbar-buttons kbd{display:none}.menkia-game-panel{top:62px;right:8px}.menkia-game-hud{top:62px;left:8px}}
+
+
+/* Custom MENKIA title screen, mod list and adjustable HUD */
+.menkia-main-menu{position:absolute;z-index:4;inset:52px 0 0;overflow:auto;background:linear-gradient(110deg,#080b14f5 0%,#0a0d17e8 48%,#080b14a8 100%);color:#f5f6fb}
+.menkia-main-menu[hidden]{display:none!important}
+.main-menu-backdrop{position:absolute;inset:0;background:radial-gradient(ellipse at 72% 45%,#8667d52e,transparent 42%),linear-gradient(135deg,transparent 40%,#9b82e50b 100%);pointer-events:none}
+.main-menu-content{position:relative;z-index:1;min-height:100%;padding:clamp(28px,6vh,65px) clamp(24px,8vw,110px);display:flex;flex-direction:column}
+.main-menu-brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:3px;font-size:15px}
+.main-menu-logo{width:42px;height:42px;display:grid;place-items:center;background:#a78bfa;color:#151020;border-radius:9px;font:900 29px 'Barlow Condensed';box-shadow:0 0 35px #a78bfa55}
+.main-menu-brand small{display:block;margin-top:4px;color:#9ca5b9;font-size:8px;letter-spacing:2px}
+.main-menu-copy{margin:auto 0 26px}
+.main-menu-kicker{color:#b9a5ff;font-size:9px;letter-spacing:3px;font-weight:900}
+.main-menu-copy h1{font:900 clamp(66px,10vw,118px)/.78 'Barlow Condensed';letter-spacing:-2px;margin:22px 0}
+.main-menu-copy h1 em{font-style:normal;color:#a78bfa}
+.main-menu-copy p{font-size:13px;color:#a0a9bc;letter-spacing:.3px}
+.main-menu-actions{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:min(330px,100%)}
+.main-menu-actions button{width:100%;text-align:left;padding:14px 17px;border:1px solid transparent;border-radius:5px;background:#ffffff08;color:#dce0ec;font:800 10px 'DM Sans';letter-spacing:1.5px;cursor:pointer;transition:.18s}
+.main-menu-actions button:hover{background:#a78bfa1c;border-color:#a78bfa70;color:#fff;transform:translateX(4px)}
+.main-menu-actions .main-menu-primary{display:flex;justify-content:space-between;align-items:center;background:#a78bfa;color:#171322;margin-bottom:6px}
+.main-menu-actions .main-menu-primary:hover{background:#b9a5ff;color:#171322}
+.main-menu-footer{display:flex;justify-content:space-between;gap:15px;margin-top:28px;padding-top:15px;border-top:1px solid #ffffff18;color:#778198;font-size:8px;letter-spacing:1.4px}
+.menkia-game-panel{width:min(390px,calc(100vw - 24px));max-height:calc(100% - 82px);overflow:auto}
+.mod-list{display:flex;flex-direction:column;border-top:1px solid #ffffff16}
+.mod-row{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:11px 0;border-bottom:1px solid #ffffff10}
+.mod-row b,.mod-row small{display:block}
+.mod-row b{font-size:10px;letter-spacing:.5px}
+.mod-row small{margin-top:4px;color:#818ba0;font-size:8px;line-height:1.45;max-width:275px}
+.mod-toggle{appearance:none;width:34px;height:19px;flex:0 0 34px;border:0;border-radius:20px;background:#343b4d;position:relative;cursor:pointer;transition:.18s}
+.mod-toggle:before{content:"";position:absolute;width:13px;height:13px;top:3px;left:3px;border-radius:50%;background:#dce0ec;transition:.18s}
+.mod-toggle:checked{background:#8065c4}
+.mod-toggle:checked:before{left:18px;background:white}
+.mod-address{display:block;margin-top:15px;color:#aeb6c8;font-size:8px;font-weight:800;letter-spacing:1.2px}
+.mod-address input{display:block;width:100%;margin-top:8px;padding:10px 11px;border:1px solid #343b4d;border-radius:5px;background:#090c14;color:#f5f6fb;font:10px 'DM Sans';outline:none}
+.mod-address input:focus{border-color:#a78bfa}
+.hud-customize{margin-top:17px;padding-top:14px;border-top:1px solid #ffffff16}
+.hud-customize h3{margin:0 0 12px;font:800 16px 'Barlow Condensed';letter-spacing:1px}
+.hud-customize label{display:grid;grid-template-columns:1fr auto;gap:5px 12px;align-items:center;margin:12px 0;color:#9ba5ba;font-size:8px;font-weight:800;letter-spacing:.8px}
+.hud-customize output{color:#d8ccff;font-size:9px}
+.hud-customize input{grid-column:1/-1;width:100%;accent-color:#a78bfa}
+#menkiaGameHud{gap:6px}
+.hud-chip[hidden]{display:none!important}
+@media(max-width:600px){
+ .main-menu-content{padding:25px 22px}
+ .main-menu-copy h1{font-size:72px}
+ .main-menu-footer{font-size:7px}
+ .menkia-game-panel{top:60px;right:6px;padding:15px}
+}
