@@ -18,3 +18,18 @@
 .player-panel{box-shadow:0 25px 90px #0009,0 0 0 1px #a78bfa0b}
 .play-button{min-width:230px;box-shadow:0 8px 30px #a78bfa25}
 @media(max-width:760px){.launcher-details{gap:17px;flex-wrap:wrap}.launcher-details b{font-size:9px}.avatar-stage{height:320px}}
+
+/* Floating player nickname above the 3D character */
+.avatar-stage{position:relative}
+.skin-nameplate{
+  position:absolute;z-index:4;top:15px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;max-width:85%;padding:8px 14px;
+  border:1px solid #a78bfa66;border-radius:6px;background:#0b0e18d9;
+  box-shadow:0 5px 22px #0008,0 0 18px #a78bfa20;
+  backdrop-filter:blur(10px);pointer-events:none;white-space:nowrap;
+}
+.skin-nameplate strong{overflow:hidden;text-overflow:ellipsis;color:#f4f1ff;font-size:11px;font-weight:800;letter-spacing:1.1px;text-shadow:0 1px 8px #000}
+.nameplate-dot{width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:#a78bfa;box-shadow:0 0 9px #a78bfa}
+#skinCanvas{cursor:grab;touch-action:pan-y}
+#skinCanvas:active{cursor:grabbing}
+.player-info{justify-content:space-between}
