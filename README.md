@@ -1,39 +1,22 @@
 # MENKIA CLIENT
 
-Cliente de Minecraft para navegador, con objetivo de compatibilidad con **Minecraft 1.12.2** y una interfaz propia inspirada en clientes modernos.
+**MENKIA is becoming a native Windows launcher for Minecraft Java Edition.** The active direction is a downloadable desktop application, not an Eaglercraft browser client.
 
-> Proyecto independiente y no oficial de Mojang/Microsoft. Minecraft y sus marcas pertenecen a sus respectivos titulares.
+## Planned account types
 
-## Estado actual
+- **Local profile:** enter a player name without Microsoft sign-in. This is not a premium license and can only join servers that allow offline-mode identities.
+- **Microsoft account:** sign in through Microsoft's official authentication flow and verify the Minecraft Java entitlement.
 
-- [x] Estructura inicial del proyecto.
-- [x] Primera interfaz web MENKIA.
-- [x] Perfil local con nombre editable.
-- [x] Carga y vista previa básica de skin PNG.
-- [ ] Vista previa 3D del personaje.
-- [x] Botón JUGAR conectado al acceso web oficial de Eaglercraft 1.12 WASM-GC, sin importación manual.
-- [x] Pantalla de juego integrada visualmente en MENKIA.
-- [ ] Sincronización del nick del perfil con el motor (requiere verificar su API de opciones).
-- [ ] HUD: FPS, CPS, Keystrokes y ArmorHUD.
-- [ ] Ajustes gráficos y opciones de rendimiento.
-- [ ] Free Look.
+## Launcher foundation
 
-## Probar la interfaz
+MENKIA will be based on the open-source [MultiMC Launcher](https://github.com/MultiMC/Launcher), with its own name, visual identity, application registration, and configuration. MultiMC's upstream README identifies Apache License 2.0 and requires forks to use their own branding and Azure application for Microsoft login. Third-party dependencies will be audited separately and their notices preserved.
 
-Abre `web/index.html` en un navegador moderno. El perfil se guarda en el almacenamiento local de ese navegador.
+## Project status
 
-También se puede publicar la carpeta `web` con GitHub Pages cuando esté habilitado para el repositorio.
+The desktop pivot is recorded on the `desktop-launcher` branch. The first milestone is importing and building a clean upstream Windows x64 baseline. No MENKIA installer or executable has been produced yet.
 
-## Estructura
+See [DESKTOP-LAUNCHER.md](DESKTOP-LAUNCHER.md) for scope, account behavior, engineering requirements, and release gates.
 
-```
-web/
-  index.html
-  styles.css
-  app.js
-README.md
-```
+## Legacy files
 
-## Motor propio MENKIA
-
-El launcher abre el motor local desde `./game/eaglercraft1-12-wasm.html`. El archivo debe publicarse en esa ruta para que el botón JUGAR funcione. La pantalla de carga y la interfaz de juego son propias de MENKIA; el motor HTML actual es una compilación de Eaglercraft 1.12.2 WASM-GC y no incluye su código fuente editable. La integración directa del archivo del motor y las modificaciones internas del juego son tareas separadas.
+The previous browser/Eaglercraft prototype remains in the repository temporarily for reference. It is not the active product direction and will not be used as the desktop launch engine.
