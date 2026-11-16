@@ -136,3 +136,22 @@ footer{margin-left:224px}
   .profile-section,.features-section{padding:45px 20px;min-height:auto}
   .launcher-dashboard{padding:15px 20px 40px}
 }
+
+
+/* MENKIA Game shell */
+.import-engine-button{display:inline-flex;align-items:center;justify-content:center;margin-top:10px;padding:10px 14px;border:1px solid #ffffff25;border-radius:6px;background:#171d2a;color:#c9c4df;font:700 10px 'DM Sans',sans-serif;letter-spacing:1.2px;cursor:pointer;transition:.2s}
+.import-engine-button:hover{border-color:var(--accent);color:white;background:#a78bfa18}
+.play-button:disabled{opacity:.65;cursor:wait;transform:none}
+.game-overlay{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:#050608}
+.game-overlay[hidden]{display:none!important}
+.game-toolbar{height:52px;min-height:52px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;background:#0b0e16;border-bottom:1px solid #ffffff18}
+.game-brand{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:900;letter-spacing:1.5px;color:#f4f5fb}
+.game-brand b{display:grid;place-items:center;width:25px;height:25px;border-radius:6px;background:var(--accent);color:#171322;font:900 17px 'Barlow Condensed'}
+.game-brand i{font-style:normal;color:#9ba5ba;font-weight:500}
+.game-toolbar-actions{display:flex;align-items:center;gap:18px}
+.game-engine-label{font-size:9px;letter-spacing:1.2px;color:#9ba5ba}
+.game-toolbar button{padding:9px 12px;border:1px solid #ffffff24;border-radius:5px;background:#171d2a;color:#f4f5fb;font:700 9px 'DM Sans',sans-serif;letter-spacing:1px;cursor:pointer}
+.game-toolbar button:hover{border-color:var(--accent);color:var(--accent)}
+#gameFrame{display:block;width:100%;height:calc(100% - 52px);flex:1;border:0;background:#000}
+body.game-open{overflow:hidden}
+@media(max-width:600px){.game-toolbar{padding:0 10px}.game-engine-label{display:none}.game-toolbar-actions{gap:8px}.game-toolbar button{font-size:8px;padding:8px}}
