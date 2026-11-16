@@ -164,3 +164,43 @@ function setupSettings() {
 loadProfile();
 setupSkinViewer();
 setupSettings();
+
+
+// Launcher navigation: switch views in-place instead of scrolling down.
+function setupSidebarNavigation() {
+  const main = document.querySelector("#home");
+  const homeItems = [
+    document.querySelector(".hero"),
+    document.querySelector(".launcher-dashboard")
+  ].filter(Boolean);
+  const views = {
+    home: homeItems,
+    profile: [document.querySelector("#profile")],
+    settings: [document.querySelector("#settings")]
+  };
+  const links = document.querySelectorAll("[data-view-link]");
+  function showView(view) {
+    for (const [key, elements] of Object.entries(views)) {
+      for (const element of elements) {
+        if (element) element.hidden = key !== view;
+      }
+    }
+    links.forEach(link => {
+      const active = link.dataset.viewLink === view;
+      link.classList.toggle("active", active);
+      if (active) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    });
+    if (main) main.dataset.currentView = view;
+  }
+  links.forEach(link => link.addEventListener("click", event => {
+    event.preventDefault();
+    const view = link.dataset.viewLink;
+    showView(view);
+    history.replaceState(null, "", "#" + view);
+  }));
+  const initial = location.hash === "#profile" ? "profile" :
+    location.hash === "#settings" ? "settings" : "home";
+  showView(initial);
+}
+setupSidebarNavigation();
