@@ -2,61 +2,80 @@
 
 ## Product direction
 
-MENKIA is now a native Windows desktop launcher for **Minecraft Java Edition**. The previous Eaglercraft/browser client is no longer the active product direction. Existing web files and the compiled Eaglercraft runtime are retained as legacy material until the desktop launcher is established; they are not part of the new launch flow.
+MENKIA is a native Windows desktop launcher for **Minecraft Java Edition**. The former Eaglercraft/browser client is no longer the active product. Its old web files have been removed from the active repository tree.
 
-## Base project
+## Source base
 
-- Upstream: https://github.com/MultiMC/Launcher
-- Upstream branch reviewed: `develop`
-- Upstream README states the launcher source is licensed under Apache License 2.0.
-- The upstream project explicitly says forks must use their own branding and register their own Azure application for Microsoft account login.
-- MENKIA must not use MultiMC names, logos, API tokens, or branding. The About screen must acknowledge MultiMC as the upstream origin and include required license notices.
-- Apache 2.0 on the main project does not automatically relicense bundled dependencies. Audit each dependency and preserve its notices before redistribution.
+- Upstream project: https://github.com/MultiMC/Launcher
+- Upstream branch tracked by the submodule: `develop`
+- MENKIA pins a specific upstream source commit through the `launcher` Git submodule. Update that pin deliberately; do not silently track moving upstream code in releases.
+- Upstream README declares Apache License 2.0 for the main launcher source. This does not automatically relicense every bundled dependency or submodule; audit all notices before redistribution.
+- MultiMC's README and build notes require forks to use their own branding and their own Azure application for Microsoft sign-in.
+- MENKIA must not ship with MultiMC's name, logos, service endpoints, API credentials, or identity. The About screen must acknowledge the upstream origin and include required license notices.
 
-## Accounts
+## Technical findings from the first source review
 
-### Local account
-- User enters a display name and creates a local launcher profile.
-- This is an offline/local identity, not a Microsoft-authenticated Minecraft license.
-- It must only be used where the selected Minecraft server permits offline-mode identities.
-- Do not bypass Microsoft authentication or present local profiles as premium accounts.
+- The upstream project is C++11 and uses CMake (the current upstream CMake file requests CMake 3.10).
+- The launcher uses Qt 5 components including Core, Widgets, Concurrent, Network, Test, and Xml.
+- The upstream Windows build guide is old: it describes Qt 5.6, 32-bit MinGW, legacy OpenSSL 1.0.2g and Java 8. It is not a verified modern Windows x64 build recipe.
+- The upstream CMake configuration contains MultiMC branding values, MultiMC service URLs, and upstream API client identifiers. These must be replaced or disabled appropriately before any MENKIA distribution. Never copy upstream credentials into MENKIA's own service registrations.
+- The first task is a reproducible Windows x64 baseline build using a supported toolchain, followed by a clean MENKIA branding/configuration patch. Do not claim a working executable until it has actually been built and tested.
 
-### Microsoft / Premium account
-- Sign in through the official Microsoft identity flow using MENKIA's own registered application.
-- Complete the Minecraft entitlement/profile checks required by the official authentication flow.
-- Store refresh tokens using the operating system's secure credential storage where practical; never write credentials or tokens to logs or plain-text config.
+## Accounts and authentication
+
+### Local profile
+
+- A local profile is a display name/local identity, not a Microsoft-authenticated Minecraft license.
+- It can only join servers that permit offline-mode identities.
+- Never bypass Microsoft authentication or present local profiles as premium accounts.
+
+### Microsoft account
+
+- Use the official Microsoft identity flow with MENKIA's own registered application.
+- Complete the required Minecraft entitlement and profile checks before enabling authenticated play.
+- Store refresh tokens in the operating system's secure credential store where practical. Never write credentials or tokens to logs or plain-text config.
 - Provide sign-out and account removal.
 
 ## Initial desktop scope
 
-1. Branded MENKIA window and instance list.
-2. Add, rename, select, and remove local launcher profiles.
+1. MENKIA-branded native window, navigation, and instance list.
+2. Add, rename, select, duplicate, and remove instances/profiles.
 3. Microsoft account sign-in and account management.
-4. Minecraft Java version selection and installation using official metadata/assets.
+4. Minecraft Java version selection and installation through official metadata/assets.
 5. Per-instance game directory, Java runtime selection, memory settings, and JVM arguments.
-6. Launch, process output/log view, and graceful game close.
-7. Settings, About, license notices, and update channel.
+6. Launch process, live output/log view, and graceful game close.
+7. Settings, About, license notices, and a safe update channel.
 
-## Engineering direction
+## Implementation rules
 
-- Start from the MultiMC C++/Qt codebase rather than wrapping the old browser game.
-- Keep the native launcher lightweight; avoid adding an Electron runtime.
-- Establish a clean upstream baseline build before branding or feature changes.
-- Build and package Windows x64 first. Keep build output separate from source.
+- Keep the native launcher lightweight; do not add an Electron runtime.
+- Keep build output separate from source.
 - Do not commit proprietary Microsoft credentials, client secrets, tokens, or private signing keys.
-- Do not bundle Minecraft game binaries/assets. Download game files through the supported official metadata and asset flow.
-- Keep third-party license inventory and notices in the release package.
+- Do not bundle Minecraft game binaries/assets. Obtain game files through supported official metadata and asset flows.
+- Preserve third-party license notices in the release package.
+- Keep upstream changes isolated and documented so future source updates can be merged safely.
 
-## Build gates
+## Build and release gates
 
-- [ ] Import/review the upstream source and all submodule/dependency licenses.
-- [ ] Build an unmodified Windows x64 baseline.
-- [ ] Replace all MultiMC branding with MENKIA branding and add attribution/notices.
-- [ ] Register MENKIA's own Microsoft/Azure application and validate sign-in.
-- [ ] Implement and test local profiles with offline-mode server limitations clearly explained.
+- [ ] Audit the complete source tree, every submodule, and third-party licenses.
+- [ ] Establish a reproducible Windows x64 baseline build.
+- [ ] Replace/disable every upstream brand, URL, API identifier, and service integration that is not explicitly approved for MENKIA.
+- [ ] Add original MENKIA name, icon, artwork, and About attribution.
+- [ ] Register MENKIA's own Microsoft/Azure application and validate the official sign-in flow.
+- [ ] Test local profiles with clear offline-mode limitations.
 - [ ] Test version installation, Java selection, memory settings, launch, logs, and update behavior.
-- [ ] Produce a signed or clearly identified unsigned Windows installer/portable package.
+- [ ] Produce a portable package or installer and clearly identify whether it is signed.
 
 ## Current status
 
-This branch records the approved product pivot and implementation requirements. It is **not yet a compiled launcher**. The upstream source has been inspected through its public README and CMake configuration; the full source tree, submodules, dependency licenses, local Windows build, and Microsoft application registration still need to be brought into the build environment and verified.
+- [x] Product direction changed from browser/Eaglercraft to native Java desktop launcher.
+- [x] Legacy browser client files removed from the active branch tree.
+- [x] MultiMC source connected as the `launcher` Git submodule.
+- [x] Initial upstream README, build guide, and CMake configuration reviewed.
+- [ ] Full dependency/submodule and license audit.
+- [ ] Verified Windows x64 baseline build.
+- [ ] MENKIA branding/configuration patch.
+- [ ] MENKIA Microsoft application registration and authentication tests.
+- [ ] Functional QA and Windows package.
+
+**This repository is not yet a compiled or tested MENKIA executable.**
