@@ -34,10 +34,6 @@ web/
 README.md
 ```
 
-## Integración del juego
+## Motor propio MENKIA
 
-El botón JUGAR abre dentro de la pantalla de juego de MENKIA el acceso web oficial de Eaglercraft 1.12.2 WASM-GC (`https://dev.eaglercraft.com/play?version=1.12.2-wasm`). No requiere que cada jugador descargue o importe un HTML. La página oficial se carga desde sus propios servidores; por ello, su disponibilidad, compatibilidad con iframes y requisitos del navegador dependen de ese servicio. La sincronización automática del nick y los HUD internos siguen pendientes.
-
-## Desarrollo
-
-Primero se construye la experiencia MENKIA; después se integra el motor web compatible y finalmente se conectan los módulos HUD y ajustes.
+El launcher abre el motor local desde `./game/eaglercraft1-12-wasm.html`. El archivo debe publicarse en esa ruta para que el botón JUGAR funcione. La pantalla de carga y la interfaz de juego son propias de MENKIA; el motor HTML actual es una compilación de Eaglercraft 1.12.2 WASM-GC y no incluye su código fuente editable. La integración directa del archivo del motor y las modificaciones internas del juego son tareas separadas.
